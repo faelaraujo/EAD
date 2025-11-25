@@ -1,10 +1,18 @@
 package com.ead.authuser.services.impl;
 
+import com.ead.authuser.dtos.UserRecordDTO;
+import com.ead.authuser.enums.UserStatus;
+import com.ead.authuser.enums.UserType;
+import com.ead.authuser.exceptions.NotFoundException;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
+import org.apache.catalina.User;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public Optional<UserModel> findById(UUID userId) {
         Optional<UserModel> userModelOptional = userRepository.findById(userId);
         if(userModelOptional.isEmpty()){
-            // new exc
+            throw new NotFoundException("Error: User not found.");
         }
         return userModelOptional;
     }
@@ -37,5 +45,26 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(userModel);
     }
 
+    @Override
+    public UserModel registerUser(UserRecordDTO userRecordDTO) {
+        var userModel = new UserModel();
+        //casting de userRecordDTO para userModel
+        BeanUtils.copyProperties(userRecordDTO,userModel);
+        userModel.setUserStatus(UserStatus.ACTIVE);
+        userModel.setUserType(UserType.USER);
+        userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
+        userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        return userRepository.save(userModel);
+    }
+
+    @Override
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 
 }
