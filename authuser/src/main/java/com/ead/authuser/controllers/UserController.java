@@ -64,10 +64,6 @@ public class UserController {
                                              @JsonView(UserRecordDTO.UserView.PasswordPut.class)
                                              UserRecordDTO userRecordDTO){
         Optional<UserModel> userModelOptional = userService.findById(userId);
-        System.out.println("senha aqui");
-        System.out.println(userRecordDTO.username());
-        System.out.println(userModelOptional.get().getPassword());
-        System.out.println(userRecordDTO.oldPassword());
         if(!userModelOptional.get().getPassword().equals(userRecordDTO.oldPassword())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Mismatched old password!");
         }
