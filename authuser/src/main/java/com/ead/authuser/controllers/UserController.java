@@ -72,7 +72,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}/image")
-    public ResponseEntity<Object> updateImage(@PathVariable(value = "userId")UUID userId,
+    public ResponseEntity<Object> updateImages(@PathVariable(value = "userId")UUID userId,
                                              @RequestBody @JsonView(UserRecordDTO.UserView.ImagePut.class)
                                              UserRecordDTO userRecordDTO){
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateImage(userRecordDTO, userService.findById(userId).get()));
