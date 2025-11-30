@@ -6,6 +6,7 @@ import com.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,7 +52,11 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<Object> updateUser(@PathVariable(value = "userId")UUID userId,
-                                             @RequestBody @JsonView(UserRecordDTO.UserView.UserPut.class)
+                                             @RequestBody
+                                             // Valida apenas os campos do grupo UserPut, permitindo regras de validação específicas
+                                            // para a operação de atualização de nome e telefone. (Validação por grupos)
+                                             @Validated(UserRecordDTO.UserView.UserPut.class)
+                                             @JsonView(UserRecordDTO.UserView.UserPut.class)
                                              UserRecordDTO userRecordDTO){
         //var userModel = userService.findById(userId).get();
         //userService.updateUser(userRecordDTO, userService.findById(userId).get());
@@ -61,6 +66,9 @@ public class UserController {
     @PutMapping("/{userId}/password")
     public ResponseEntity<Object> updatePassword(@PathVariable(value = "userId")UUID userId,
                                              @RequestBody
+                                             // Valida apenas os campos do grupo PasswordPut, permitindo regras de validação específicas
+                                             // para a operação de atualização de senha. (Validação por grupos)
+                                             @Validated(UserRecordDTO.UserView.PasswordPut.class)
                                              @JsonView(UserRecordDTO.UserView.PasswordPut.class)
                                              UserRecordDTO userRecordDTO){
         Optional<UserModel> userModelOptional = userService.findById(userId);
@@ -73,7 +81,11 @@ public class UserController {
 
     @PutMapping("/{userId}/image")
     public ResponseEntity<Object> updateImages(@PathVariable(value = "userId")UUID userId,
-                                             @RequestBody @JsonView(UserRecordDTO.UserView.ImagePut.class)
+                                             @RequestBody
+                                             // Valida apenas os campos do grupo ImagePut, permitindo regras de validação específicas
+                                             // para a operação de atualização de imagem. (Validação por grupos)
+                                             @Validated(UserRecordDTO.UserView.ImagePut.class)
+                                             @JsonView(UserRecordDTO.UserView.ImagePut.class)
                                              UserRecordDTO userRecordDTO){
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateImage(userRecordDTO, userService.findById(userId).get()));
     }
