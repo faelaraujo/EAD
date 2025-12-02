@@ -1,7 +1,9 @@
 package com.ead.authuser.dtos;
 
 
+import com.ead.authuser.validations.PasswordConstraint;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.Constraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,11 +21,13 @@ public record UserRecordDTO(@NotBlank(groups = UserView.RegistrationPost.class,m
 
                             @NotBlank(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class},message = "Password is mandatory")
                             @Size(min = 6, max = 20, message = "Size must be between 6 and 20")
+                            @PasswordConstraint(groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class})
                             @JsonView({UserView.RegistrationPost.class, UserView.PasswordPut.class})
                             String password,
 
                             @NotBlank(groups = UserView.PasswordPut.class,message = "OlPassword is mandatory")
                             @Size(min = 6, max = 20,groups = UserView.PasswordPut.class,message = "Size must be between 6 and 20")
+                            @PasswordConstraint(groups = UserView.PasswordPut.class)
                             @JsonView(UserView.PasswordPut.class)
                             String oldPassword,
 
