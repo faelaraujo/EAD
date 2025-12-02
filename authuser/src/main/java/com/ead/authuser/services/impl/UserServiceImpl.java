@@ -7,9 +7,10 @@ import com.ead.authuser.exceptions.NotFoundException;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
-import org.apache.catalina.User;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cglib.core.Local;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,12 @@ public class UserServiceImpl implements UserService {
     public List<UserModel> findAll() {
         return userRepository.findAll();
     }
+
+    @Override
+    public Page<UserModel> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
 
     @Override
     public Optional<UserModel> findById(UUID userId) {
@@ -89,5 +96,7 @@ public class UserServiceImpl implements UserService {
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         return userRepository.save(userModel);
     }
+
+
 
 }
