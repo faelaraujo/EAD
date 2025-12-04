@@ -3,7 +3,6 @@ package com.ead.authuser.validations.impl;
 import com.ead.authuser.validations.PasswordConstraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.ConstraintViolation;
 
 import java.util.regex.Pattern;
 
@@ -19,7 +18,7 @@ public class PasswordConstraintImpl implements ConstraintValidator<PasswordConst
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
         Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
-        if(password.equals(null) || password.trim().isEmpty() || password.contains(" ")){
+        if(password==null || password.trim().isEmpty() || password.contains(" ")){
             return false;
         }else if(!pattern.matcher(password).matches()){
             return false;
