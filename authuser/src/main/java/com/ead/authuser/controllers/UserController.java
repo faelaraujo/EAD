@@ -27,6 +27,7 @@ public class UserController {
     final UserService userService;
 
     public UserController(UserService userService) {
+
         this.userService = userService;
     }
 
