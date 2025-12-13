@@ -62,6 +62,28 @@ public class ModuleServiceImpl implements ModuleService {
         return moduleModelOptional;
     }
 
+    @Override
+    public List<ModuleModel> findAllModulesIntoCourse(UUID courseId) {
+        return moduleRepository.findAllModulesIntoCourse(courseId);
+    }
+
+    @Override
+    public Optional<ModuleModel> findModuleIntoCourse(UUID courseId, UUID moduleId) {
+
+        Optional<ModuleModel> moduleModelOptional = moduleRepository.findModuleIntoCourse(courseId, moduleId);
+        if (moduleModelOptional.isEmpty()){
+            // lanca exception
+        }
+        return moduleModelOptional;
+    }
+
+    @Override
+    public ModuleModel update(ModuleRecordDto moduleRecordDto, ModuleModel moduleModel) {
+        BeanUtils.copyProperties(moduleRecordDto, moduleModel);
+        return moduleRepository.save(moduleModel);
+
+    }
+
 
 }
 

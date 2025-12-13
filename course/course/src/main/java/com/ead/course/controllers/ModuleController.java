@@ -1,5 +1,6 @@
 package com.ead.course.controllers;
 
+import com.ead.course.dtos.CourseRecordDto;
 import com.ead.course.dtos.ModuleRecordDto;
 import com.ead.course.models.CourseModel;
 import com.ead.course.models.ModuleModel;
@@ -35,22 +36,33 @@ public class ModuleController {
                 body(moduleService.save(moduleRecordDto, courseService.findById(courseId).get()));
     }
 
-    @GetMapping("/modules")
-    public ResponseEntity<List<ModuleModel>> getAllModules(){
-        List<ModuleModel> moduleModels = moduleService.findAll();
+    @GetMapping("/courses/{courseId}/modules")
+    public ResponseEntity<List<ModuleModel>> getAllModules(@PathVariable(value = "courseId")UUID courseId){
+        List<ModuleModel> moduleModels = moduleService.findAllModulesIntoCourse(courseId);
         return  ResponseEntity.status(HttpStatus.OK).body(moduleModels);
 
     }
 
-    @GetMapping("modules/{moduleId}")
-    public ResponseEntity<Object> getOneModule(@PathVariable(value = "moduleId") UUID moduleId){
-        Optional<ModuleModel> moduleModelOptional = moduleService.findById(moduleId);
+    @GetMapping("/courses/{courseId}/modules/{moduleId}")
+    public ResponseEntity<Object> getOneModule( @PathVariable(value = "courseId") UUID courseId,
+                                                @PathVariable(value = "moduleId") UUID moduleId){
+        Optional<ModuleModel> moduleModelOptional = moduleService.findModuleIntoCourse(courseId, moduleId);
         return  ResponseEntity.status(HttpStatus.OK).body(moduleModelOptional);
     }
 
-    @DeleteMapping("modules/{moduleId}")
-    public ResponseEntity<Object> deleteModule(@PathVariable(value = "moduleId") UUID moduleId){
-        moduleService.delete( moduleService.findById(moduleId).get());
-        return ResponseEntity.status(HttpStatus.OK).body("module deleted successfully");
+    @DeleteMapping("/courses/{courseId}/modules/{moduleId}")
+    public ResponseEntity<Object> deleteModule(@PathVariable(value = "courseId") UUID courseId,
+                                               @PathVariable(value = "moduleId") UUID moduleId){
+        moduleService.delete( moduleService.findModuleIntoCourse(courseId, moduleId).get());
+        return ResponseEntity.status(HttpStatus.OK).body("Module deleted successfully");
+    }
+
+    @PutMapping("/courses/{courseId}/modules/{moduleId}")
+    public ResponseEntity<Object> updateModule(@PathVariable(value = "courseId") UUID courseId,
+                                               @PathVariable(value = "moduleId") UUID moduleId,
+                                               @RequestBody @Valid ModuleRecordDto moduleRecordDto){
+        //moduleService.update(moduleRecordDto, moduleService.findModuleIntoCourse(courseId, moduleId).get());
+        return ResponseEntity.status(HttpStatus.OK).body( moduleService.update(moduleRecordDto,
+                moduleService.findModuleIntoCourse(courseId, moduleId).get()));
     }
 }
