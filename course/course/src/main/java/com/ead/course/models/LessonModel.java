@@ -28,7 +28,7 @@ public class LessonModel implements Serializable {
     private UUID lessonId;
 
     @Column(nullable = false, length = 150)
-    private String tittle;
+    private String title;
 
     @Column(nullable = false, length = 255)
     private String description;

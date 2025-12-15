@@ -3,6 +3,7 @@ package com.ead.course.controllers;
 import com.ead.course.dtos.CourseRecordDto;
 import com.ead.course.dtos.ModuleRecordDto;
 import com.ead.course.models.CourseModel;
+import com.ead.course.models.LessonModel;
 import com.ead.course.models.ModuleModel;
 import com.ead.course.services.CourseService;
 import com.ead.course.services.ModuleService;
