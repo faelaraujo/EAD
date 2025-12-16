@@ -39,11 +39,22 @@ public class LessonServiceImpl implements LessonService {
 
     @Override
     public Optional<LessonModel> findLessonIntoModule(UUID moduleId, UUID lessonId) {
-        Optional<LessonModel> lessonModelOptional = lessonRepository.findById(lessonId);
+        Optional<LessonModel> lessonModelOptional = lessonRepository.findLessonIntoModule(moduleId,lessonId);
         if(lessonModelOptional.isEmpty()){
             //TODO
         }
         return lessonModelOptional;
 
     }
+
+    @Override
+    public void delete(LessonModel lessonModel) {
+        lessonRepository.delete(lessonModel);
     }
+
+    @Override
+    public LessonModel update(LessonRecordDto lessonRecordDto, LessonModel lessonModel) {
+        BeanUtils.copyProperties(lessonRecordDto, lessonModel);
+        return lessonRepository.save(lessonModel);
+    }
+}

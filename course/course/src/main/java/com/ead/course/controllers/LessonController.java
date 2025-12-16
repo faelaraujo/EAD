@@ -48,10 +48,19 @@ public class LessonController {
     }
 
     @DeleteMapping("/modules/{moduleId}/lessons/{lessonId}")
-    public ResponseEntity<Object> deleteModule(@PathVariable(value = "moduleId") UUID moduleId,
+    public ResponseEntity<Object> deleteLesson(@PathVariable(value = "moduleId") UUID moduleId,
                                                @PathVariable(value = "lessonId") UUID lessonId){
-        lessonService.delete( lessonService.findLessonIntoModule(moduleId,lessonId).get());
+        lessonService.delete(lessonService.findLessonIntoModule(moduleId,lessonId).get());
         return ResponseEntity.status(HttpStatus.OK).body("Lesson deleted successfully");
+    }
+
+    @PutMapping("/modules/{moduleId}/lessons/{lessonId}")
+    public ResponseEntity<Object> updateLesson(@PathVariable(value = "moduleId") UUID moduleId,
+                                               @PathVariable(value = "lessonId") UUID lessonId,
+                                               @RequestBody @Valid LessonRecordDto lessonRecordDto){
+        //moduleService.update(moduleRecordDto, moduleService.findModuleIntoCourse(courseId, moduleId).get());
+        return ResponseEntity.status(HttpStatus.OK).body( lessonService.update(lessonRecordDto,
+                lessonService.findLessonIntoModule(moduleId, lessonId).get()));
     }
 
 }
