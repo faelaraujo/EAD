@@ -9,9 +9,12 @@ import com.ead.course.services.CourseService;
 import com.ead.course.services.ModuleService;
 import jakarta.validation.Valid;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import specifications.SpecificationTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,8 +41,10 @@ public class ModuleController {
     }
 
     @GetMapping("/courses/{courseId}/modules")
-    public ResponseEntity<List<ModuleModel>> getAllModules(@PathVariable(value = "courseId")UUID courseId){
-        List<ModuleModel> moduleModels = moduleService.findAllModulesIntoCourse(courseId);
+    public ResponseEntity<Page<ModuleModel>> getAllModules(@PathVariable(value = "courseId")UUID courseId,
+                                                           SpecificationTemplate.ModuleSpec spec,
+                                                           Pageable pageable){
+        Page<ModuleModel> moduleModels = moduleService.findAllModulesIntoCourse(SpecificationTemplate.moduleCourseId(courseId).and(spec),pageable);
         return  ResponseEntity.status(HttpStatus.OK).body(moduleModels);
 
     }
