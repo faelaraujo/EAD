@@ -1,6 +1,7 @@
 package specifications;
 
 import com.ead.course.models.CourseModel;
+import com.ead.course.models.LessonModel;
 import com.ead.course.models.ModuleModel;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Root;
@@ -28,6 +29,9 @@ public class SpecificationTemplate {
     @Spec(path = "title", spec = LikeIgnoreCase.class)
     public interface ModuleSpec extends Specification<ModuleModel> {}
 
+    @Spec(path = "title", spec = LikeIgnoreCase.class)
+    public interface LessonSpec extends Specification<LessonModel> {}
+
     public static Specification<ModuleModel> moduleCourseId(final UUID courseId){
         return (root, query, criteriaBuilder) -> {
             query.distinct(true);
@@ -35,6 +39,16 @@ public class SpecificationTemplate {
             Root<CourseModel> course = query.from(CourseModel.class);
             Expression<Collection<ModuleModel>> courseModules = course.get("modules");
             return criteriaBuilder.and(criteriaBuilder.equal(course.get("courseId"),courseId), criteriaBuilder.isMember(module, courseModules));
+        };
+    }
+
+    public static Specification<LessonModel> lessonModuleId(final UUID moduleId){
+        return (root, query, criteriaBuilder) -> {
+            query.distinct(true);
+            Root<LessonModel> lesson = root;
+            Root<ModuleModel> module = query.from(ModuleModel.class);
+            Expression<Collection<LessonModel>> moduleLessons = module.get("lessons");
+            return criteriaBuilder.and(criteriaBuilder.equal(module.get("moduleId"),moduleId), criteriaBuilder.isMember(lesson, moduleLessons));
         };
     }
 }
