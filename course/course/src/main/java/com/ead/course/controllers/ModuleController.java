@@ -1,24 +1,19 @@
 package com.ead.course.controllers;
 
-import com.ead.course.dtos.CourseRecordDto;
 import com.ead.course.dtos.ModuleRecordDto;
-import com.ead.course.models.CourseModel;
-import com.ead.course.models.LessonModel;
 import com.ead.course.models.ModuleModel;
 import com.ead.course.services.CourseService;
 import com.ead.course.services.ModuleService;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import specifications.SpecificationTemplate;
+import com.ead.course.specifications.SpecificationTemplate;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

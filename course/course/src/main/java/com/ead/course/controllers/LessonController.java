@@ -1,9 +1,7 @@
 package com.ead.course.controllers;
 
 import com.ead.course.dtos.LessonRecordDto;
-import com.ead.course.dtos.ModuleRecordDto;
 import com.ead.course.models.LessonModel;
-import com.ead.course.models.ModuleModel;
 import com.ead.course.services.LessonService;
 import com.ead.course.services.ModuleService;
 import jakarta.validation.Valid;
@@ -14,9 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import specifications.SpecificationTemplate;
+import com.ead.course.specifications.SpecificationTemplate;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

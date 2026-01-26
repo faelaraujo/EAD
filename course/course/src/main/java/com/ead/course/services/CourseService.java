@@ -5,9 +5,7 @@ import com.ead.course.models.CourseModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import specifications.SpecificationTemplate;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 

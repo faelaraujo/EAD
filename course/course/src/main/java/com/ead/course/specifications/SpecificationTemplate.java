@@ -1,4 +1,4 @@
-package specifications;
+package com.ead.course.specifications;
 
 import com.ead.course.models.CourseModel;
 import com.ead.course.models.CourseUserModel;
