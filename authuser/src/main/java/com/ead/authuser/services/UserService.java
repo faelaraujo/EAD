@@ -31,6 +31,8 @@ public interface UserService {
 
     UserModel updateImage(UserRecordDTO userRecordDTO, UserModel userModel);
 
+    UserModel registerInstructor(UserModel userModel);
+
     //Page<UserModel> findAll(Pageable pageable);
 }
 

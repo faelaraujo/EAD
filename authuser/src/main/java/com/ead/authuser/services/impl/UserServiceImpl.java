@@ -98,6 +98,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(userModel);
     }
 
+    @Override
+    public UserModel registerInstructor(UserModel userModel) {
+        userModel.setUserType(UserType.INSTRUCTOR);
+        userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
+        return userRepository.save(userModel);
+    }
 
 
 }
