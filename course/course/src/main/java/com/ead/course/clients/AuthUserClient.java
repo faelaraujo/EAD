@@ -30,6 +30,7 @@ public class AuthUserClient {
 
 
     public AuthUserClient(RestClient.Builder restClientBuilder) {
+
         this.restClient = restClientBuilder.build();
     }
 
