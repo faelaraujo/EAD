@@ -52,7 +52,7 @@ public class AuthUserClient {
 
     public ResponseEntity<UserRecordDTO> getOneUserById(UUID userId){
         String url = baseUrlAuthUser + "/users/"+ userId;
-        logger.debug(url);
+        logger.debug("Request URL: {}", url);
 
         return restClient.get()
                 .uri(url)
@@ -69,7 +69,7 @@ public class AuthUserClient {
 
     public void postSubscriptionUserinCourse (UUID courseId, UUID userId){
         String url = baseUrlAuthUser + "/users/" + userId + "/courses/subscription";
-        logger.debug(url);
+        logger.debug("POST: Request URL: {}", url);
         try {
             var courseUserRecordDto = new CourseUserRecordDto(courseId, userId);
             restClient.post().
@@ -80,6 +80,20 @@ public class AuthUserClient {
                     .toBodilessEntity();
         }catch (RestClientException e){
             logger.error("Error Request POST RequestClient with cause: {}",e.getMessage());
+            throw  new RuntimeException("Error Request POST RequestClient: " + e);
+        }
+    }
+
+    public void deleteCourseUserinAuthUser(UUID courseId){
+        String url = baseUrlAuthUser + "/users/courses/" + courseId;
+        logger.debug("Request URL: {}", url);
+        try {
+            restClient.delete()
+                    .uri(url)
+                    .retrieve().
+                    toBodilessEntity();
+        }catch (RestClientException e){
+            logger.error("Error Request DELETE RequestClient with cause: {}",e.getMessage());
             throw  new RuntimeException("Error Request POST RequestClient: " + e);
         }
     }

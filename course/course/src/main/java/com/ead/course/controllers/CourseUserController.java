@@ -37,6 +37,7 @@ public class CourseUserController {
     @GetMapping("/courses/{courseId}/users")
     public ResponseEntity<Page<UserRecordDTO>> getAllUsersByCourse(@PageableDefault(sort = "userId", direction = Sort.Direction.ASC) Pageable pageable,
                                                                    @PathVariable(value = "courseId") UUID courseId){
+        courseService.findById(courseId);
         return ResponseEntity.status(HttpStatus.OK).body(authUserClient.getAllUsersByCourse(courseId, pageable));
     }
 
@@ -61,4 +62,12 @@ public class CourseUserController {
 
     }
 
+    @DeleteMapping("/courses/users/{userId}")
+    public ResponseEntity<Object> deleteCourseUserbyUser(@PathVariable(value = "userId") UUID userId){
+        if (!courseUserService.existsByuserId(userId)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("CourseUser not found!");
+        }
+        courseUserService.deleteAllByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body("CourseUser deleted successfully!");
+    }
 }
