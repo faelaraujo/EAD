@@ -46,7 +46,7 @@ public class CourseClient {
         }
     }
 
-    public void deleteUserCourseInCourse(UUID userid){
+   /* public void deleteUserCourseInCourse(UUID userid){
         String url = baseUrlCourse + "/courses/users/"+userid;
         logger.debug("Request URL: {}", url);
         try {
@@ -59,5 +59,5 @@ public class CourseClient {
             logger.error("Error Request DELETE RequestClient with cause: {}",e.getMessage());
             throw  new RuntimeException("Error Request DELETE RequestClient " + e);
         }
-    }
+    }*/
 }

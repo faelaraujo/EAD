@@ -37,12 +37,13 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Page<UserModel>> getAllUsers(SpecificationTemplate.UserSpec spec,
-                                                       Pageable pageable,
-                                                       @RequestParam(required = false)UUID courseId){
-       Page<UserModel> userModelPage = (courseId != null)
+                                                       Pageable pageable/*,
+                                                       @RequestParam(required = false)UUID courseId*/){
+/*       Page<UserModel> userModelPage = (courseId != null)
                ? userModelPage = userService.findAll(SpecificationTemplate.userCourseId(courseId).and(spec),pageable)
-               : userService.findAll(spec,pageable);
+               : userService.findAll(spec,pageable);*/
 
+        Page<UserModel> userModelPage = userService.findAll(spec,pageable);
 
        //validação sem utilização de ternario
 /*       if(courseId != null){
