@@ -1,6 +1,5 @@
 package com.ead.authuser.services.impl;
 
-import com.ead.authuser.models.UserCourseModel;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserCourseRepository;
 import com.ead.authuser.services.UserCourseService;

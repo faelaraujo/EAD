@@ -3,7 +3,6 @@ package com.ead.authuser.controllers;
 import com.ead.authuser.clients.CourseClient;
 import com.ead.authuser.dtos.CourseRecordDTO;
 import com.ead.authuser.dtos.UserCourseRecordDto;
-import com.ead.authuser.models.UserCourseModel;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.services.UserCourseService;
 import com.ead.authuser.services.UserService;
