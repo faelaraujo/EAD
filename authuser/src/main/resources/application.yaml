@@ -23,6 +23,8 @@ spring:
   output:
     ansi:
       enabled: Always
+  rabbitmq:
+    addresses: amqps://ojlkltdr:JtRaKYsd53EkNsxkO3yIJfBI6Hvf-DER@beaver.rmq.cloudamqp.com/ojlkltdr
 ead:
   api:
     url:
