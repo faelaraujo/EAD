@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
             deleteUserCourseinCourse = true;
         }*/
         userRepository.delete(userModel);
+        userEventPublisher.publishUserEvent(userModel.convertToUserEventDto(ActionType.DELETE));
         /*if(deleteUserCourseinCourse){
             courseClient.deleteUserCourseInCourse(userModel.getUserId());
         }*/
@@ -97,12 +98,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Transactional
     @Override
     public UserModel updateUser(UserRecordDTO userRecordDTO, UserModel userModel) {
         userModel.setFullName(userRecordDTO.fullName());
         userModel.setPhoneNumber(userRecordDTO.phoneNumber());
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-        return userRepository.save(userModel);
+        userRepository.save(userModel);
+        userEventPublisher.publishUserEvent(userModel.convertToUserEventDto(ActionType.UPDATE));
+        return userModel;
     }
 
     @Override
@@ -112,18 +116,24 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(userModel);
     }
 
+    @Transactional
     @Override
     public UserModel updateImage(UserRecordDTO userRecordDTO, UserModel userModel) {
         userModel.setImgUrl(userRecordDTO.imageUrl());
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-        return userRepository.save(userModel);
+        userRepository.save(userModel);
+        userEventPublisher.publishUserEvent(userModel.convertToUserEventDto(ActionType.UPDATE));
+        return userModel;
     }
 
+    @Transactional
     @Override
     public UserModel registerInstructor(UserModel userModel) {
         userModel.setUserType(UserType.INSTRUCTOR);
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
-        return userRepository.save(userModel);
+        userRepository.save(userModel);
+        userEventPublisher.publishUserEvent(userModel.convertToUserEventDto(ActionType.UPDATE));
+        return userModel;
     }
 
 

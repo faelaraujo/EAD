@@ -17,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name ="TB_COURSES")
+@Table(name ="TB_USERS")
 public class UserModel {
     private static final long serialVersionUID = 1L;
 

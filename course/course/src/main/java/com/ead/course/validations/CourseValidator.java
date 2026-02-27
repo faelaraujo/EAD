@@ -1,14 +1,19 @@
 package com.ead.course.validations;
 
 import com.ead.course.dtos.CourseRecordDto;
+import com.ead.course.enums.UserType;
+import com.ead.course.models.UserModel;
 import com.ead.course.services.CourseService;
+import com.ead.course.services.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.expression.spel.support.ReflectivePropertyAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -16,12 +21,14 @@ public class CourseValidator implements Validator {
 
     Logger logger = LogManager.getLogger(CourseValidator.class);
 
-    private final Validator validator;
-    private final CourseService courseService;
+    final Validator validator;
+    final CourseService courseService;
+    final UserService userService;
 
-    public CourseValidator(@Qualifier("defaultValidator") Validator validator, CourseService courseService) {
+    public CourseValidator(@Qualifier("defaultValidator") Validator validator, CourseService courseService, UserService userService) {
         this.validator = validator;
         this.courseService = courseService;
+        this.userService = userService;
     }
 
 
@@ -50,14 +57,13 @@ public class CourseValidator implements Validator {
     }
 
     private void validateUserInstructor(UUID userInstructor, Errors errors){
-/*        ResponseEntity<UserRecordDTO> reponseUserInstructor =
-                authUserClient.getOneUserById(userInstructor);
-        if (reponseUserInstructor.getBody().userType().equals(UserType.USER) ||
-                reponseUserInstructor.getBody().userType().equals(UserType.STUDENT)){
+        Optional<UserModel> userModelOptional = userService.findbyId(userInstructor);
+        if (userModelOptional.get().getUserType().equals(UserType.STUDENT.toString()) ||
+            userModelOptional.get().getUserType().equals(UserType.USER.toString())){
+
             errors.rejectValue("userInstructor", "UserInstructorError",
                     "User must be INSTRUCTOR or ADMIN");
             logger.error("Error: Error validation userInstructors: {}", userInstructor);
-        }*/
-
+        }
     }
 }

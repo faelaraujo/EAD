@@ -6,7 +6,7 @@ import org.springframework.beans.BeanUtils;
 
 import java.util.UUID;
 
-public record UserEventRecordDto(@JsonProperty("uuid")
+public record UserEventRecordDto(
                                  UUID userId,
                                  String userName,
                                  String email,

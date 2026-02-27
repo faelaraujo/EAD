@@ -66,7 +66,7 @@ public class SpecificationTemplate {
             Root<CourseModel> course = root;
             Root<UserModel> user = query.from(UserModel.class);
             Expression<Collection<CourseModel>> usersCourses = user.get("courses");
-            return criteriaBuilder.and(criteriaBuilder.equal(user.get("coruseId"),userId), criteriaBuilder.isMember(course, usersCourses));
+            return criteriaBuilder.and(criteriaBuilder.equal(user.get("userId"),userId), criteriaBuilder.isMember(course, usersCourses));
         };
     }
 
@@ -76,7 +76,7 @@ public class SpecificationTemplate {
             Root<UserModel> user = root;
             Root<CourseModel> course = query.from(CourseModel.class);
             Expression<Collection<UserModel>> coursesUsers = course.get("users");
-            return criteriaBuilder.and(criteriaBuilder.equal(course.get("coruseId"),courseId), criteriaBuilder.isMember(user, coursesUsers));
+            return criteriaBuilder.and(criteriaBuilder.equal(course.get("courseId"),courseId), criteriaBuilder.isMember(user, coursesUsers));
         };
     }
 }

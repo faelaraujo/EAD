@@ -1,7 +1,9 @@
 package com.ead.course.controllers;
 
 import com.ead.course.dtos.SubscriptionRecordDto;
+import com.ead.course.enums.UserStatus;
 import com.ead.course.models.CourseModel;
+import com.ead.course.models.UserModel;
 import com.ead.course.services.CourseService;
 import com.ead.course.services.UserService;
 import com.ead.course.specifications.SpecificationTemplate;
@@ -41,7 +43,19 @@ public class CourseUserController {
     public ResponseEntity<Object> saveSubscriptionUserinCourse(@PathVariable(value = "courseId") UUID courseId,
                                                                @RequestBody @Valid SubscriptionRecordDto subscriptionRecordDto){
         Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
+        Optional<UserModel> userModelOptional = userService.findbyId(subscriptionRecordDto.userId());
+
+        if(courseService.existsByCourseAndUser(courseId,subscriptionRecordDto.userId())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Subscription already exists!");
+        }
+        if(userModelOptional.get().getUserStatus().equals(UserStatus.BLOCKED.toString())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: User is blocked!");
+        }
+        courseService.saveSubscriptionUserInCourse(courseModelOptional.get(), userModelOptional.get());
+        return ResponseEntity.status(HttpStatus.CREATED).body("Subscription created sucessfully");
+
         //verifications with state transfer
+
 
         /*if(courseUserService.existsByCourseAndUserId(courseModelOptional.get(), subscriptionRecordDto.userId())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Subscription already exists!");
@@ -56,7 +70,7 @@ public class CourseUserController {
                 saveAndSendSubscriptionUserInCourse(courseModelOptional.get().
                         convertToCourseUserModel(subscriptionRecordDto.userId()));*/
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(" ");
+
 
     }
 
