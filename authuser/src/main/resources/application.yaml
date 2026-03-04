@@ -48,6 +48,15 @@ eureka:
     hostname: localhost
 
 reselience4j:
+  circuitbreaker:
+    instances:
+      circuitbreakerInstance:
+        slidingWindowSize: 30
+        permittedNumberOfCallsInHalfOPenState: 2
+        slidingWindowType: TIME_BASED
+        minimumNumberOfCalls: 2
+        waitDurationInOpenState: 15s
+        failureRateThreshold: 80
   retry:
     instances:
       retryInstance:
