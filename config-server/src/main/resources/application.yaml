@@ -1,0 +1,22 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: ead-config-server
+  config:
+    import: optional:file:configuracao.env[.properties]
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/faelaraujo/ead-config-server-repo
+          username: ${GIT_USERNAME}
+          password: ${GIT_TOKEN}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: 'http://serviceregistry:ead123sr@localhost:8761/eureka'
+  instance:
+    hostname: localhost
