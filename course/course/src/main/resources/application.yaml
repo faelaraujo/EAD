@@ -1,52 +1,54 @@
-server:
-  servlet:
-    context-path: '/ead-course/'
-  port: 8082
+#server:
+#  servlet:
+#    context-path: '/ead-course/'
+#  port: 8082
 
 spring:
   application:
     name: ead-course-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/ead-course_v2
-    username: postgres
-    password: adm123
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        jdbc:
-          lob:
-            non-contextual-creation: true
-  output:
-    ansi:
-      enabled: Always
-  rabbitmq:
-    addresses: amqps://ojlkltdr:JtRaKYsd53EkNsxkO3yIJfBI6Hvf-DER@beaver.rmq.cloudamqp.com/ojlkltdr
+  config:
+    import: 'optional:configserver:'
+  cloud:
+    config:
+      discovery:
+        serviceId: ead-config-server
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        jdbc:
+#          lob:
+#            non-contextual-creation: true
+#  output:
+#    ansi:
+#      enabled: Always
+#  rabbitmq:
+#    addresses: amqps://ojlkltdr:JtRaKYsd53EkNsxkO3yIJfBI6Hvf-DER@beaver.rmq.cloudamqp.com/ojlkltdr
 
-ead:
-  api:
-    url:
-      authuser: 'http://ead-authuser-service/ead-authuser'
-  broker:
-    exchange:
-      userEvent: ead.userevent
-    queue:
-      userEventQueue:
-        name: ead.userevent.ms.course
+#ead:
+#  api:
+#    url:
+#      authuser: 'http://ead-authuser-service/ead-authuser'
+#  broker:
+#    exchange:
+#      userEvent: ead.userevent
+#    queue:
+#      userEventQueue:
+#        name: ead.userevent.ms.course
 
-logging:
-  level:
-    com.ead: TRACE
-    root: INFO
-    org.springframework.web: DEBUG
-    org.hibernate: INFO
+#logging:
+#  level:
+#    com.ead: TRACE
+#    root: INFO
+#    org.springframework.web: DEBUG
+#    org.hibernate: INFO
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: 'http://serviceregistry:ead123sr@localhost:8761/eureka'
-  instance:
-    hostname: localhost
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: 'http://serviceregistry:ead123sr@localhost:8761/eureka'
+#  instance:
+#    hostname: localhost

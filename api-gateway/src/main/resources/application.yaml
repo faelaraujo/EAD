@@ -1,26 +1,32 @@
-server:
-  port: 8080
+#server:
+#  port: 8080
 
 spring:
   application:
     name: ead-api-gateway
+  config:
+    import: 'optional:configserver:'
   cloud:
-    gateway:
-      server:
-        webmvc:
-          routes:
-            - id: authuser-service
-              uri: lb://EAD-AUTHUSER-SERVICE
-              predicates:
-                - Path=/ead-authuser/**
-            - id: course-service
-              uri: lb://EAD-COURSE-SERVICE
-              predicates:
-                - Path=/ead-course/**
+    config:
+      discovery:
+        serviceId: ead-config-  server
+#  cloud:
+#    gateway:
+#      server:
+#        webmvc:
+#          routes:
+#            - id: authuser-service
+#              uri: lb://EAD-AUTHUSER-SERVICE
+#              predicates:
+#                - Path=/ead-authuser/**
+#            - id: course-service
+#              uri: lb://EAD-COURSE-SERVICE
+#              predicates:
+#                - Path=/ead-course/**
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: 'http://serviceregistry:ead123sr@localhost:8761/eureka'
-  instance:
-    hostname: localhost
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: 'http://serviceregistry:ead123sr@localhost:8761/eureka'
+#  instance:
+#    hostname: localhost
