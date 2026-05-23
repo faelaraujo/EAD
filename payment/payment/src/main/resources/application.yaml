@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ead-notification-service
+    name: ead-payment-service
   config:
     import: 'configserver:'
   cloud:
@@ -9,3 +9,4 @@ spring:
         serviceId: ead-config-server
       username: configserver
       password: 'ead123cs'
+

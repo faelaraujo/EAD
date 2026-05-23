@@ -29,7 +29,7 @@ public class NotificationModel implements Serializable {
     @Column(nullable = false)
     private UUID userId;
     @Column(nullable = false, length = 150)
-    private String titlle;
+    private String title;
     @Column(nullable = false)
     private String message;
     @Column(nullable = false)

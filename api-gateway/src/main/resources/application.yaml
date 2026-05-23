@@ -9,7 +9,9 @@ spring:
   cloud:
     config:
       discovery:
-        serviceId: ead-config-  server
+        serviceId: ead-config-server
+      username: configserver
+      password: 'ead123cs'
 #  cloud:
 #    gateway:
 #      server:
