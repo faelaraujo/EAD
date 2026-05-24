@@ -159,4 +159,6 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
         this.lastUpdateDate = lastUpdateDate;
     }
 
+
+
 }
