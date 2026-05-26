@@ -7,12 +7,15 @@ import com.ead.authuser.enums.UserStatus;
 import com.ead.authuser.enums.UserType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -34,7 +37,7 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
 
     //JsonIgnore o campo passowrd será desconsiderado na serialização
     @JsonIgnore
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 255)
     private String password;
 
     @Column(nullable = false, length = 150)
@@ -61,6 +64,14 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
     //@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd-MM-yyyy HH:mm:ss")
     @Column(nullable = false)
     private LocalDateTime lastUpdateDate;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "TB_USERS_ROLES",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleModel> roles = new HashSet<>();
+
 
     public UserEventDto convertToUserEventDto(ActionType actionType){
         var userEventDto = new UserEventDto();
@@ -159,6 +170,11 @@ public class UserModel extends RepresentationModel<UserModel> implements Seriali
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    public Set<RoleModel> getRoles() {
+        return roles;
+    }
 
-
+    public void setRoles(Set<RoleModel> roles) {
+        this.roles = roles;
+    }
 }

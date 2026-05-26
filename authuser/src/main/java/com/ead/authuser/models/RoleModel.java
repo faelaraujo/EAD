@@ -1,6 +1,7 @@
 package com.ead.authuser.models;
 
 import com.ead.authuser.enums.RoleType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.hateoas.aot.ControllerMethodReturnTypeAotProcessor;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,12 +21,13 @@ public class RoleModel implements Serializable, GrantedAuthority {
     private UUID roleId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false,  unique = true, length = 30)
-    private RoleType role_name;
+    @Column(name = "role_name", nullable = false,  unique = true, length = 30)
+    private RoleType roleName;
 
     @Override
+    @JsonIgnore
     public String getAuthority() {
-        return this.role_name.toString();
+        return this.roleName.toString();
     }
 
     public UUID getRoleId() {
@@ -36,11 +38,11 @@ public class RoleModel implements Serializable, GrantedAuthority {
         this.roleId = roleId;
     }
 
-    public RoleType getRolename() {
-        return role_name;
+    public RoleType getRoleName() {
+        return roleName;
     }
 
-    public void setRolename(RoleType rolename) {
-        this.role_name = rolename;
+    public void setRole_name(RoleType roleName) {
+        this.roleName = roleName;
     }
 }
