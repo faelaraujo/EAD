@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 //import io.vavr.control.Either;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtProvider {
@@ -29,8 +31,11 @@ public class JwtProvider {
 
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+        final String roles = userPrincipal.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
         return Jwts.builder()
-                .subject((userPrincipal.getUsername()))
+                .subject((userPrincipal.getUserId().toString()))
+                .claim("roles", roles)
                 .issuedAt(new Date())
                 .expiration(new Date((new Date()).getTime() + jwtExpiration))
                 .signWith(getSecretKey())
@@ -41,7 +46,16 @@ public class JwtProvider {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8));
     }
 
-    public String getUsernameJwt(String token) {
+/*    public String getUsernameJwt(String token) {
+        return Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }*/
+
+    public String getSubjectJwt(String token) {
         return Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()

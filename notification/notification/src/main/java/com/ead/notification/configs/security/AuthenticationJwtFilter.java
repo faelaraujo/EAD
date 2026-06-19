@@ -1,4 +1,4 @@
-package com.ead.authuser.configs.security;
+package com.ead.notification.configs.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -22,11 +21,9 @@ public class AuthenticationJwtFilter extends OncePerRequestFilter {
     Logger logger = LogManager.getLogger(AuthenticationJwtFilter.class);
 
     final JwtProvider jwtProvider;
-    final UserDetailsServiceImpl userDetailsService;
 
-    public AuthenticationJwtFilter(JwtProvider jwtProvider, UserDetailsServiceImpl userDetailsService) {
+    public AuthenticationJwtFilter(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
-        this.userDetailsService = userDetailsService;
     }
 
 
@@ -37,8 +34,9 @@ public class AuthenticationJwtFilter extends OncePerRequestFilter {
             if (jwtString != null && jwtProvider.validateJwtToken(jwtString)) {
                 //String username = jwtProvider.getUsernameJwt(jwtString);
                 String userId = jwtProvider.getSubjectJwt(jwtString);
+                String rolesStr = jwtProvider.getClaimNameJwt(jwtString, "roles");
                 //UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                UserDetails userDetails = userDetailsService.loadUserById(UUID.fromString(userId));
+                UserDetails userDetails = UserDetailsImpl.build(UUID.fromString(userId), rolesStr);
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
